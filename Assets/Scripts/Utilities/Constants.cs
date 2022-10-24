@@ -7,6 +7,10 @@ public class PooledObjectTags
 {
     public const string Bullet = "Bullet";
 }
+public class ObjectTags
+{
+    public const string Gun = "Gun";
+}
 
 public class PlayerStates
 {
@@ -21,6 +25,11 @@ public enum ListOperation
 {
     Adding,
     Subtraction
+}
+public enum CollactableOperation
+{
+    Adding,
+    Multiplication
 }
 public enum UIPanelType
 {

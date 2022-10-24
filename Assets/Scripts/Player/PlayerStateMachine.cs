@@ -15,13 +15,13 @@ public class PlayerStateMachine : StateMachine
         m_States.Add(PlayerStates.RunState, new Run(PlayerStates.RunState, this));
         m_States.Add(PlayerStates.SuccessState, new Success(PlayerStates.SuccessState, this));
 
-        GameManager.Instance.OnResetToMainMenu += OnStartGame;
+        GameManager.Instance.OnResetToMainMenu += OnResetToMainMenu;
     }
 
     #region Events
     private void OnStartGame()
     {
-        ChangeState(PlayerStates.IdleState, true);
+        
     }
 
     private void OnResumeGame()
@@ -30,6 +30,7 @@ public class PlayerStateMachine : StateMachine
 
     private void OnResetToMainMenu()
     {
+        ChangeState(PlayerStates.RunState, true);
     }
 
     private void OnDestroy()

@@ -14,7 +14,8 @@ public class Run : BaseState
     }
     public override void UpdateLogic()
     {
-        return;
+        m_stateMachine.Player.PlayerForward();
+        m_stateMachine.Player.UpdateGunShooters();
     }
     public override void Exit()
     {

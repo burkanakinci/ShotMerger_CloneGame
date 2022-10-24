@@ -13,7 +13,6 @@ public class Idle : BaseState
     }
     public override void UpdateLogic()
     {
-        m_stateMachine.Player.PlayerForward();
     }
     public override void Exit()
     {
