@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c8b8b91656eb0040a29e51171de08ae, type: 3}
-  m_Name: PlayerMovementData
+  m_Script: {fileID: 11500000, guid: 93663a85772989448ac602bddb1fa14c, type: 3}
+  m_Name: CameraMovementData
   m_EditorClassIdentifier: 
-  m_ForwardSpeed: 0
-  m_HorizontalSpeed: 50
-  m_XClampValue: 4
+  m_PlayPositionOffset: {x: 0, y: 7, z: -7}
+  m_PlayRotation: {x: 0, y: 0, z: 0, w: 0}

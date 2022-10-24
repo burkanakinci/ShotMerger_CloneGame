@@ -9,6 +9,7 @@ public class GameManager : CustomBehaviour
     #region Attributes
     public PlayerManager PlayerManager;
     public InputManager InputManager;
+    public CameraManager CameraManager;
     #endregion
 
     #region Actions
@@ -28,6 +29,7 @@ public class GameManager : CustomBehaviour
 
         InputManager.Initialize();
         PlayerManager.Initialize();
+        CameraManager.Initialize();
     }
     public override void Initialize()
     {

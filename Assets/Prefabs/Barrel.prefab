@@ -301,6 +301,14 @@ PrefabInstance:
       value: Barrel
       objectReference: {fileID: 0}
     - target: {fileID: 4253280567622488715, guid: 525b960b1fa9f384fa00a4d1e46330f4, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253280567622488715, guid: 525b960b1fa9f384fa00a4d1e46330f4, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253280567622488715, guid: 525b960b1fa9f384fa00a4d1e46330f4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d0fdac57f34ac5146b90e5c537ae6af9, type: 2}

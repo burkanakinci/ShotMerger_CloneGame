@@ -10,6 +10,7 @@ public class BaseState
 
     public virtual void Enter()
     {
+        return;
     }
     public virtual void UpdateLogic()
     {

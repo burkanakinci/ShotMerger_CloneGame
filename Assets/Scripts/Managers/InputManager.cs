@@ -20,6 +20,11 @@ public class InputManager : CustomBehaviour
     public override void Initialize()
     {
     }
+    private void Update()
+    {
+        UpdateUIOverride();
+        UpdateInput();
+    }
     public void UpdateInput()
     {
         if (Input.GetMouseButtonDown(0))

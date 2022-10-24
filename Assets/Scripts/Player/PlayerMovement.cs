@@ -18,8 +18,7 @@ public class PlayerMovement
     private float m_TargetXPos;
     public void SwipeGun(float _horizontalChange)
     {
-        m_TargetXPos =
-        m_PlayerGun.localPosition.x + (_horizontalChange * m_PlayerMovementData.HorizontalSpeed);
+        m_TargetXPos = m_PlayerGun.localPosition.x + (_horizontalChange * m_PlayerMovementData.HorizontalSpeed);
 
         m_TargetXPos = Mathf.Clamp(m_TargetXPos, (-1.0f * m_PlayerMovementData.XClampValue), m_PlayerMovementData.XClampValue);
 

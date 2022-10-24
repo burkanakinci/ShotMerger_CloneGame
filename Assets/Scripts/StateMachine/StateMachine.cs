@@ -3,27 +3,29 @@ using System.Collections.Generic;
 
 public class StateMachine
 {
-    private BaseState m_CurrentState;
+    protected BaseState m_CurrentState;
+    protected PlayerManager m_Player;
+    public PlayerManager Player => m_Player;
     protected Dictionary<string, BaseState> m_States;
 
-    private void Update()
+    public void UpdateStateMachine()
     {
         if (m_CurrentState != null)
         {
             m_CurrentState.UpdateLogic();
         }
     }
-    public void ChangeState(BaseState _nextState)
+    public void ChangeState(string _nextState, bool _changeForce = false)
     {
-        if (_nextState != m_CurrentState)
+        if (m_States[_nextState] != m_CurrentState || _changeForce)
         {
             if (m_CurrentState != null)
             {
                 m_CurrentState.Exit();
             }
 
-            m_CurrentState = _nextState;
+            m_CurrentState = m_States[_nextState];
             m_CurrentState.Enter();
         }
-    }    
+    }
 }
