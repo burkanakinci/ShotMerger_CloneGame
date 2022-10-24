@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c8b8b91656eb0040a29e51171de08ae, type: 3}
-  m_Name: PlayerMovementData
+  m_Script: {fileID: 11500000, guid: 546e4d094af40c049a88eddd59e71026, type: 3}
+  m_Name: BulletData
   m_EditorClassIdentifier: 
-  m_ForwardSpeed: 0
-  m_HorizontalSpeed: 8
-  m_XClampValue: 4
+  m_BulletForwardSpeed: 10

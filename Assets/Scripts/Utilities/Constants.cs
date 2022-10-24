@@ -5,14 +5,15 @@ public class Constants
 
 public class PooledObjectTags
 {
+    public const string Bullet = "Bullet";
 }
 
 public class PlayerStates
 {
     public const string IdleState = "PlayerIdle";
-    public const string WinState = "";
-    public const string FailState = "";
-    public const string RunState = "";
+    public const string SuccessState = "SuccessState";
+    public const string FailState = "FailState";
+    public const string RunState = "RunState";
 
 }
 

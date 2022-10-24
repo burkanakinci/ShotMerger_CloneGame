@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93663a85772989448ac602bddb1fa14c, type: 3}
   m_Name: CameraMovementData
   m_EditorClassIdentifier: 
-  m_PlayPositionOffset: {x: 0, y: 7, z: -7}
-  m_PlayRotation: {x: 0, y: 0, z: 0, w: 0}
+  m_PlayPositionOffset: {x: 0, y: 6.6, z: -4.1}
+  m_PlayRotation: {x: 0.35836795, y: 0, z: 0, w: 0.9335804}

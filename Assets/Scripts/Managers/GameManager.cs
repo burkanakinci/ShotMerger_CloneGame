@@ -10,6 +10,8 @@ public class GameManager : CustomBehaviour
     public PlayerManager PlayerManager;
     public InputManager InputManager;
     public CameraManager CameraManager;
+    public ObjectPool ObjectPool;
+    public Entities Entities;
     #endregion
 
     #region Actions
@@ -30,6 +32,8 @@ public class GameManager : CustomBehaviour
         InputManager.Initialize();
         PlayerManager.Initialize();
         CameraManager.Initialize();
+        ObjectPool.Initialize();
+        Entities.Initialize();
     }
     public override void Initialize()
     {

@@ -10,10 +10,10 @@ public class PlayerStateMachine : StateMachine
         m_Player = _player;
 
         m_States = new Dictionary<string, BaseState>();
-        m_States.Add("PlayerIdle", new Idle("PlayerIdle", this));
-        m_States.Add("PlayerFail", new Fail("PlayerFail", this));
-        m_States.Add("PlayerRun", new Run("PlayerRun", this));
-        m_States.Add("PlayerSuccess", new Success("PlayerSuccess", this));
+        m_States.Add(PlayerStates.IdleState, new Idle(PlayerStates.IdleState, this));
+        m_States.Add(PlayerStates.FailState, new Fail(PlayerStates.FailState, this));
+        m_States.Add(PlayerStates.RunState, new Run(PlayerStates.RunState, this));
+        m_States.Add(PlayerStates.SuccessState, new Success(PlayerStates.SuccessState, this));
 
         GameManager.Instance.OnResetToMainMenu += OnStartGame;
     }

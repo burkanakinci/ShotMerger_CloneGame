@@ -21,13 +21,18 @@ public class CameraManager : CustomBehaviour
         FollowCamera();
     }
 
-    public void FollowCamera()
+    private void FollowCamera()
     {
         if (m_FollowedObject == null)
         {
             return;
         }
         m_MainCamera.transform.position = (m_FollowedObject.position + m_CameraMovementData.PlayPositionOffset);
+    }
+
+    private void RotateCamera()
+    {
+        m_MainCamera.transform.rotation = m_CameraMovementData.PlayRotation;
     }
 
     #region Events
@@ -42,6 +47,7 @@ public class CameraManager : CustomBehaviour
 
     private void OnResetToMainMenu()
     {
+        RotateCamera();
     }
 
     private void OnDestroy()
