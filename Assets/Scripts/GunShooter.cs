@@ -6,14 +6,16 @@ using UnityEngine;
 public class GunShooter
 {
     #region Attributes
-    [SerializeField]private Transform m_BulletSpawnPos;
-    [SerializeField]private int m_BulletCountPerSecond;
+    [SerializeField] private Transform m_BulletSpawnPos;
+    [SerializeField] private Transform m_LastCollected;
+    [SerializeField] private int m_BulletCountPerSecond;
     private float m_Timer;
     #endregion
 
     #region ExternalAccess
     public int BulletCountPerSecond => m_BulletCountPerSecond;
     public float BulletSpawnXValue => m_BulletSpawnPos.localPosition.x;
+    public Transform LastCollected => m_LastCollected;
     #endregion
     public GunShooter(Transform _bulletSpawnPos)
     {
@@ -23,10 +25,12 @@ public class GunShooter
     }
 
 
-    public void UpdateBulletCount(int _bulletCount)
+    public void UpdateBulletCount(int _bulletCount, Transform _lastTransform)
     {
         m_BulletCountPerSecond = _bulletCount;
         m_TempTimer = 1.0f / m_BulletCountPerSecond;
+        m_Timer = 0.0f;
+        m_LastCollected = _lastTransform;
     }
 
     private float m_TempTimer;

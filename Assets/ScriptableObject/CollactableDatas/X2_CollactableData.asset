@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: X2_CollactableData
   m_EditorClassIdentifier: 
   m_CollactableOperation: 1
-  m_CollactableValue: 1
+  m_CollactableValue: 2

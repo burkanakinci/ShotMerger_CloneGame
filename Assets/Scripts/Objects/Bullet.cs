@@ -12,7 +12,6 @@ public class Bullet : CustomBehaviour, IPooledObject
     {
 
     }
-
     private void FixedUpdate()
     {
         m_BulletRigidbody.velocity = (m_BulletData.BulletForwardSpeed * transform.forward);
@@ -22,7 +21,7 @@ public class Bullet : CustomBehaviour, IPooledObject
         transform.eulerAngles = Vector3.zero;
         GameManager.Instance.Entities.ManageBulletList(ListOperation.Adding, this);
 
-        StartDestroyBulletCoroutine();
+        StartDestroyBulletCoroutine(true);
     }
     public void OnObjectDeactive()
     {
@@ -40,21 +39,38 @@ public class Bullet : CustomBehaviour, IPooledObject
     {
         return this;
     }
-
     private Coroutine m_DestroyBulletCoroutine;
-    private void StartDestroyBulletCoroutine()
+    private void StartDestroyBulletCoroutine(bool _onLifeTime)
     {
         if (m_DestroyBulletCoroutine != null)
         {
             StopCoroutine(m_DestroyBulletCoroutine);
         }
-
-        m_DestroyBulletCoroutine = StartCoroutine(DestroyBullet());
+        if (_onLifeTime)
+        {
+            m_DestroyBulletCoroutine = StartCoroutine(DestroyBullet(m_BulletData.BulletLifeTime));
+        }
+        else
+        {
+            m_DestroyBulletCoroutine = StartCoroutine(DestroyBullet());
+        }
     }
-
+    private IEnumerator DestroyBullet(float _lifeTime)
+    {
+        yield return new WaitForSecondsRealtime(_lifeTime);
+        OnObjectDeactive();
+    }
     private IEnumerator DestroyBullet()
     {
-        yield return new WaitForSecondsRealtime(m_BulletData.BulletLifeTime);
+        yield return new WaitForEndOfFrame();
         OnObjectDeactive();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(ObjectTags.Barrel))
+        {
+            StartDestroyBulletCoroutine(false);
+        }
     }
 }

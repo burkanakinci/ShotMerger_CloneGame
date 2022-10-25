@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerManager : CustomBehaviour
 {
@@ -10,21 +11,21 @@ public class PlayerManager : CustomBehaviour
     [SerializeField] private Transform m_DefaultBulletSpawnTransform;
     [SerializeField] private Transform m_CollectedTransform;
     [SerializeField] private List<GunShooter> m_GunShooters;
+    [SerializeField] private Gun m_Gun;
     #endregion
-    public CollactableParent collactableParent;
     #region ExternalAccess
     public Transform CollectedTransform => m_CollectedTransform;
+    public PlayerStateMachine PlayerStateMachine => m_PlayerStateMachine;
     #endregion
     public override void Initialize()
     {
         m_PlayerStateMachine = new PlayerStateMachine(this);
         m_PlayerMovement.Initialize();
+        m_Gun.Initialize();
 
         m_GunShooters = new List<GunShooter>();
 
         GameManager.Instance.OnResetToMainMenu += OnResetToMainMenu;
-
-        collactableParent.Initialize();
     }
 
     private void Update()
@@ -37,7 +38,6 @@ public class PlayerManager : CustomBehaviour
         for (int i = m_GunShooters.Count - 1; i >= 0; i--)
         {
             m_GunShooters[i].ShootBullet();
-            Debug.Log(m_GunShooters.Count);
         }
     }
 
@@ -46,18 +46,27 @@ public class PlayerManager : CustomBehaviour
         m_PlayerMovement.PlayerForwardMovement();
     }
 
-    public void AddedCollected(float _collectedXPos, Collactable _collected, ref CollactableData _collectedData)
+    private Vector3 m_TempCollectedLocalPos;
+    private double m_TempDoubleConvertor;
+    public void AddedCollected(Collactable _collected, ref CollactableData _collectedData)
     {
-        GunShooter tempGunShooter = new GunShooter(_collected.transform);
-        if (GetShooterByLocalX(_collectedXPos) == null)
+        _collected.transform.SetParent(CollectedTransform);
+        m_TempCollectedLocalPos = _collected.transform.localPosition;
+        m_TempDoubleConvertor = Math.Round(m_TempCollectedLocalPos.x, 3);
+        m_TempCollectedLocalPos.x = (float)m_TempDoubleConvertor;
+        m_TempCollectedLocalPos.x -= (m_TempCollectedLocalPos.x % 0.375f);
+        _collected.transform.localPosition = m_TempCollectedLocalPos;
+
+        if (GetShooterByLocalX(_collected.transform.localPosition.x) == null)
         {
+            GunShooter tempGunShooter = new GunShooter(_collected.transform);
             if (_collectedData.CollactableOperation == CollactableOperation.Adding)
             {
-                tempGunShooter.UpdateBulletCount((2 + _collectedData.CollactableValue));
+                tempGunShooter.UpdateBulletCount((2 + _collectedData.CollactableValue), (_collected.transform));
             }
             else if (_collectedData.CollactableOperation == CollactableOperation.Multiplication)
             {
-                tempGunShooter.UpdateBulletCount((2 * _collectedData.CollactableValue));
+                tempGunShooter.UpdateBulletCount((2 * _collectedData.CollactableValue), (_collected.transform));
             }
             m_GunShooters.Add(tempGunShooter);
         }
@@ -65,20 +74,15 @@ public class PlayerManager : CustomBehaviour
         {
             if (_collectedData.CollactableOperation == CollactableOperation.Adding)
             {
-                GetShooterByLocalX(_collectedXPos).UpdateBulletCount((GetShooterByLocalX(_collectedXPos).BulletCountPerSecond + _collectedData.CollactableValue));
+                GetShooterByLocalX(_collected.transform.localPosition.x).UpdateBulletCount((GetShooterByLocalX(_collected.transform.localPosition.x).BulletCountPerSecond + _collectedData.CollactableValue), (_collected.transform));
             }
             else if (_collectedData.CollactableOperation == CollactableOperation.Multiplication)
             {
-                GetShooterByLocalX(_collectedXPos).UpdateBulletCount((GetShooterByLocalX(_collectedXPos).BulletCountPerSecond * _collectedData.CollactableValue));
+                GetShooterByLocalX(_collected.transform.localPosition.x).UpdateBulletCount((GetShooterByLocalX(_collected.transform.localPosition.x).BulletCountPerSecond * _collectedData.CollactableValue), (_collected.transform));
             }
         }
-
-        if (GetShooterByLocalX(m_DefaultBulletSpawnTransform.localPosition.x) != null)
-        {
-            m_GunShooters.Remove(GetShooterByLocalX(m_DefaultBulletSpawnTransform.localPosition.x));
-        }
     }
-    private GunShooter GetShooterByLocalX(float _xPos)
+    public GunShooter GetShooterByLocalX(float _xPos)
     {
         for (int _shooterCount = m_GunShooters.Count - 1; _shooterCount >= 0; _shooterCount--)
         {
@@ -96,17 +100,13 @@ public class PlayerManager : CustomBehaviour
 
     }
 
-    private void OnResumeGame()
-    {
-    }
-
     private GunShooter m_TempGunShooter;
     private void OnResetToMainMenu()
     {
         m_GunShooters.Clear();
 
         m_TempGunShooter = new GunShooter(m_DefaultBulletSpawnTransform);
-        m_TempGunShooter.UpdateBulletCount(1);
+        m_TempGunShooter.UpdateBulletCount(1, m_DefaultBulletSpawnTransform);
         m_GunShooters.Add(m_TempGunShooter);
     }
 
@@ -115,5 +115,32 @@ public class PlayerManager : CustomBehaviour
         GameManager.Instance.OnResetToMainMenu -= OnResetToMainMenu;
     }
 
+    #endregion
+
+    #region Datas
+    public void UpdateCoinCountData(int _coinCount)
+    {
+        GameManager.Instance.JsonConverter.PlayerData.CoinCount = _coinCount;
+        GameManager.Instance.JsonConverter.SavePlayerData();
+    }
+    public int GetTotalCoinCount()
+    {
+        return GameManager.Instance.JsonConverter.PlayerData.CoinCount;
+    }
+    public void UpdateLevelData(int _levelNumber)
+    {
+        GameManager.Instance.JsonConverter.PlayerData.LevelNumber = _levelNumber;
+        GameManager.Instance.JsonConverter.SavePlayerData();
+    }
+    private void UpdateNextLevel()
+    {
+        GameManager.Instance.JsonConverter.PlayerData.LevelNumber = (GetLevelNumber() + 1);
+        GameManager.Instance.JsonConverter.SavePlayerData();
+    }
+
+    public int GetLevelNumber()
+    {
+        return GameManager.Instance.JsonConverter.PlayerData.LevelNumber;
+    }
     #endregion
 }

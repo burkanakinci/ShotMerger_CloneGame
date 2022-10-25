@@ -10,6 +10,9 @@ public class PooledObjectTags
 public class ObjectTags
 {
     public const string Gun = "Gun";
+    public const string Collactable = "Collactable";
+    public const string Bullet = "Bullet";
+    public const string Barrel = "Barrel";
 }
 
 public class PlayerStates
@@ -30,6 +33,13 @@ public enum CollactableOperation
 {
     Adding,
     Multiplication
+}
+
+public enum ObjectsLayer
+{
+    Collactable = 8,
+    Collacted = 9,
+    Gun = 10
 }
 public enum UIPanelType
 {

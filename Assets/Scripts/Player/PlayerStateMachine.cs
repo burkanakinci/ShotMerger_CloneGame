@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerStateMachine : StateMachine
 {
-
     public PlayerStateMachine(PlayerManager _player)
     {
         m_Player = _player;
@@ -16,26 +15,40 @@ public class PlayerStateMachine : StateMachine
         m_States.Add(PlayerStates.SuccessState, new Success(PlayerStates.SuccessState, this));
 
         GameManager.Instance.OnResetToMainMenu += OnResetToMainMenu;
+        GameManager.Instance.OnGameStart += OnStartGame;
+        GameManager.Instance.OnLevelFailed += OnFailGame;
+        GameManager.Instance.OnLevelCompleted += OnSuccessGame;
     }
 
     #region Events
     private void OnStartGame()
     {
-        
+        ChangeState(PlayerStates.RunState);
     }
-
-    private void OnResumeGame()
-    {
-    }
-
     private void OnResetToMainMenu()
     {
-        ChangeState(PlayerStates.RunState, true);
+        ChangeState(PlayerStates.IdleState, true);
+    }
+    private void OnFailGame()
+    {
+        ChangeState(PlayerStates.FailState);
+    }
+    private void OnSuccessGame()
+    {
+        ChangeState(PlayerStates.SuccessState);
+    }
+
+    public bool EqualCurrentState(string _state)
+    {
+        return m_States[_state] == m_CurrentState;
     }
 
     private void OnDestroy()
     {
-        GameManager.Instance.OnResetToMainMenu -= OnStartGame;
+        GameManager.Instance.OnResetToMainMenu -= OnResetToMainMenu;
+        GameManager.Instance.OnGameStart -= OnStartGame;
+        GameManager.Instance.OnResetToMainMenu -= OnFailGame;
+        GameManager.Instance.OnGameStart -= OnSuccessGame;
     }
 
     #endregion

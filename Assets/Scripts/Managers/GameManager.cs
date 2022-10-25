@@ -12,6 +12,9 @@ public class GameManager : CustomBehaviour
     public CameraManager CameraManager;
     public ObjectPool ObjectPool;
     public Entities Entities;
+    public JsonConverter JsonConverter;
+    public LevelManager LevelManager;
+    public UIManager UIManager;
     #endregion
 
     #region Actions
@@ -31,9 +34,12 @@ public class GameManager : CustomBehaviour
 
         InputManager.Initialize();
         PlayerManager.Initialize();
+        JsonConverter.Initialize();
         CameraManager.Initialize();
         ObjectPool.Initialize();
         Entities.Initialize();
+        LevelManager.Initialize();
+        UIManager.Initialize();
     }
     public override void Initialize()
     {
